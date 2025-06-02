@@ -1,0 +1,136 @@
+import java.awt.*;
+import javax.swing.*;
+
+public class ContadorDoces {
+    // Contadores
+    private int contadorBeijinho = 0;
+    private int contadorBrigadeiro = 0;
+    private int contadorCajuzinho = 0;
+    private int contadorPacoca = 0;
+    private int contadorPeDeMoleque = 0;
+
+    // Labels para atualizar contagem
+    private JLabel labelContagemBeijinho;
+    private JLabel labelContagemBrigadeiro;
+    private JLabel labelContagemCajuzinho;
+    private JLabel labelContagemPacoca;
+    private JLabel labelContagemPeDeMoleque;
+
+    public ContadorDoces() {
+        JFrame frame = new JFrame("Contador de Doces");
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setLayout(new GridLayout(5, 3, 10, 10));
+
+        // Imagens (usando o caminho onde você salvou as imagens)
+       ImageIcon imgBeijinho = new ImageIcon("C:\\Users\\Aluno\\Documents\\tarefas java\\imagens\\beijinho.png");
+        ImageIcon imgBrigadeiro = new ImageIcon("C:\\Users\\Aluno\\Documents\\tarefas java\\imagens\\brigadeiro.png");
+        ImageIcon imgCajuzinho = new ImageIcon("C:\\Users\\Aluno\\Documents\\tarefas java\\imagens\\cajuzinho.png");
+        ImageIcon imgPacoca = new ImageIcon("C:\\Users\\Aluno\\Documents\\tarefas java\\imagens\\pacoca.png");
+        ImageIcon imgPeDeMoleque = new ImageIcon("C:\\Users\\Aluno\\Documents\\tarefas java\\imagens\\pe_de_moleque.png");
+
+
+        // Botões de imagens
+        JButton btnBeijinho = new JButton(imgBeijinho);
+        JButton btnBrigadeiro = new JButton(imgBrigadeiro);
+        JButton btnCajuzinho = new JButton(imgCajuzinho);
+        JButton btnPacoca = new JButton(imgPacoca);
+        JButton btnPeDeMoleque = new JButton(imgPeDeMoleque);
+
+        // Labels de contagem
+        labelContagemBeijinho = new JLabel("Quantidade: 0");
+        labelContagemBrigadeiro = new JLabel("Quantidade: 0");
+        labelContagemCajuzinho = new JLabel("Quantidade: 0");
+        labelContagemPacoca = new JLabel("Quantidade: 0");
+        labelContagemPeDeMoleque = new JLabel("Quantidade: 0");
+
+        // Campos para entrada manual
+        JTextField campoBeijinho = new JTextField(5);
+        JTextField campoBrigadeiro = new JTextField(5);
+        JTextField campoCajuzinho = new JTextField(5);
+        JTextField campoPacoca = new JTextField(5);
+        JTextField campoPeDeMoleque = new JTextField(5);
+
+        // Ações de clique
+        btnBeijinho.addActionListener(e -> incrementarContador("Beijinho"));
+        btnBrigadeiro.addActionListener(e -> incrementarContador("Brigadeiro"));
+        btnCajuzinho.addActionListener(e -> incrementarContador("Cajuzinho"));
+        btnPacoca.addActionListener(e -> incrementarContador("Pacoca"));
+        btnPeDeMoleque.addActionListener(e -> incrementarContador("PeDeMoleque"));
+
+        // Ações para entrada manual
+        campoBeijinho.addActionListener(e -> setarContador("Beijinho", campoBeijinho.getText()));
+        campoBrigadeiro.addActionListener(e -> setarContador("Brigadeiro", campoBrigadeiro.getText()));
+        campoCajuzinho.addActionListener(e -> setarContador("Cajuzinho", campoCajuzinho.getText()));
+        campoPacoca.addActionListener(e -> setarContador("Pacoca", campoPacoca.getText()));
+        campoPeDeMoleque.addActionListener(e -> setarContador("PeDeMoleque", campoPeDeMoleque.getText()));
+
+        // Adicionando componentes ao frame
+        frame.add(btnBeijinho);
+        frame.add(labelContagemBeijinho);
+        frame.add(campoBeijinho);
+
+        frame.add(btnBrigadeiro);
+        frame.add(labelContagemBrigadeiro);
+        frame.add(campoBrigadeiro);
+
+        frame.add(btnCajuzinho);
+        frame.add(labelContagemCajuzinho);
+        frame.add(campoCajuzinho);
+
+        frame.add(btnPacoca);
+        frame.add(labelContagemPacoca);
+        frame.add(campoPacoca);
+
+        frame.add(btnPeDeMoleque);
+        frame.add(labelContagemPeDeMoleque);
+        frame.add(campoPeDeMoleque);
+
+        frame.pack();
+        frame.setVisible(true);
+    }
+
+    private void incrementarContador(String doce) {
+        switch (doce) {
+            case "Beijinho" -> labelContagemBeijinho.setText("Quantidade: " + (++contadorBeijinho));
+            case "Brigadeiro" -> labelContagemBrigadeiro.setText("Quantidade: " + (++contadorBrigadeiro));
+            case "Cajuzinho" -> labelContagemCajuzinho.setText("Quantidade: " + (++contadorCajuzinho));
+            case "Pacoca" -> labelContagemPacoca.setText("Quantidade: " + (++contadorPacoca));
+            case "PeDeMoleque" -> labelContagemPeDeMoleque.setText("Quantidade: " + (++contadorPeDeMoleque));
+        }
+    }
+
+    private void setarContador(String doce, String valor) {
+        try {
+            int quantidade = Integer.parseInt(valor);
+            if (quantidade < 0) quantidade = 0;
+            switch (doce) {
+                case "Beijinho" -> {
+                    contadorBeijinho = quantidade;
+                    labelContagemBeijinho.setText("Quantidade: " + contadorBeijinho);
+                }
+                case "Brigadeiro" -> {
+                    contadorBrigadeiro = quantidade;
+                    labelContagemBrigadeiro.setText("Quantidade: " + contadorBrigadeiro);
+                }
+                case "Cajuzinho" -> {
+                    contadorCajuzinho = quantidade;
+                    labelContagemCajuzinho.setText("Quantidade: " + contadorCajuzinho);
+                }
+                case "Pacoca" -> {
+                    contadorPacoca = quantidade;
+                    labelContagemPacoca.setText("Quantidade: " + contadorPacoca);
+                }
+                case "PeDeMoleque" -> {
+                    contadorPeDeMoleque = quantidade;
+                    labelContagemPeDeMoleque.setText("Quantidade: " + contadorPeDeMoleque);
+                }
+            }
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(null, "Digite um número válido!");
+        }
+    }
+
+    public static void main(String[] args) {
+        SwingUtilities.invokeLater(ContadorDoces::new);
+    }
+}
