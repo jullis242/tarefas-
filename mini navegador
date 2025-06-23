@@ -1,0 +1,72 @@
+import javax.swing.JOptionPane;
+import java.io.File;
+
+public class MiniNavegadorArquivos {
+    private static File diretorioAtual = new File(System.getProperty("user.dir"));
+
+    public static void main(String[] args) {
+        while (true) {
+            String[] opcoes = {"Listar", "Entrar", "Voltar", "Sair"};
+            int escolha = JOptionPane.showOptionDialog(
+                    null,
+                    "Diretório atual:\n" + diretorioAtual.getAbsolutePath(),
+                    "Mini Navegador de Arquivos",
+                    JOptionPane.DEFAULT_OPTION,
+                    JOptionPane.INFORMATION_MESSAGE,
+                    null,
+                    opcoes,
+                    opcoes[0]
+            );
+
+            if (escolha == 0) { // Listar
+                listarConteudo();
+            } else if (escolha == 1) { // Entrar
+                entrarEmDiretorio();
+            } else if (escolha == 2) { // Voltar
+                voltarDiretorio();
+            } else if (escolha == 3 || escolha == JOptionPane.CLOSED_OPTION) { // Sair
+                break;
+            }
+        }
+    }
+
+    private static void listarConteudo() {
+        File[] arquivos = diretorioAtual.listFiles();
+        if (arquivos == null || arquivos.length == 0) {
+            JOptionPane.showMessageDialog(null, "Diretório vazio.");
+            return;
+        }
+
+        StringBuilder conteudo = new StringBuilder("Conteúdo do diretório:\n\n");
+        for (File f : arquivos) {
+            conteudo.append(f.getName());
+            if (f.isDirectory()) {
+                conteudo.append(" [DIR]");
+            }
+            conteudo.append("\n");
+        }
+
+        JOptionPane.showMessageDialog(null, conteudo.toString());
+    }
+
+    private static void entrarEmDiretorio() {
+        String nome = JOptionPane.showInputDialog("Digite o nome do subdiretório para entrar:");
+        if (nome == null || nome.trim().isEmpty()) return;
+
+        File novoDiretorio = new File(diretorioAtual, nome);
+        if (novoDiretorio.exists() && novoDiretorio.isDirectory()) {
+            diretorioAtual = novoDiretorio;
+        } else {
+            JOptionPane.showMessageDialog(null, "Subdiretório inválido ou inexistente.");
+        }
+    }
+
+    private static void voltarDiretorio() {
+        File pai = diretorioAtual.getParentFile();
+        if (pai != null && pai.exists()) {
+            diretorioAtual = pai;
+        } else {
+            JOptionPane.showMessageDialog(null, "Não é possível voltar. Já está no diretório raiz.");
+        }
+    }
+}
